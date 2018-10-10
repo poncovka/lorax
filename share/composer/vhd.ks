@@ -22,7 +22,7 @@ shutdown
 # System timezone
 timezone  US/Eastern
 # System bootloader configuration
-bootloader --location=mbr --append="no_timer_check console=ttyS0,115200n8 console=tty1 net.ifnames=0"
+bootloader --location=mbr --append="no_timer_check console=ttyS0,115200n8 earlyprintk=ttyS0,115200 rootdelay=300 net.ifnames=0"
 
 # Basic services
 services --enabled=sshd,chronyd,waagent,cloud-init
@@ -58,6 +58,8 @@ rm -f /etc/udev/rules.d/75-persistent-net-generator.rules
 # Enable network.service
 systemctl enable network.service
 
+# Set a verbose boot theme.
+plymouth-set-default-theme --rebuild-initrd details
 %end
 
 %packages
