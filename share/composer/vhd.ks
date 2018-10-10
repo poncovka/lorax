@@ -34,6 +34,30 @@ rm /var/lib/systemd/random-seed
 # Clear /etc/machine-id
 rm /etc/machine-id
 touch /etc/machine-id
+
+# Set up network.
+cat > /etc/sysconfig/network << EOF
+NETWORKING=yes
+HOSTNAME=localhost.localdomain
+EOF
+
+cat >> /etc/sysconfig/network-scripts/ifcfg-eth0 << EOF
+DEVICE="eth0"
+BOOTPROTO="dhcp"
+ONBOOT="yes"
+TYPE="Ethernet"
+USERCTL="no"
+PEERDNS="yes"
+IPV6INIT="no"
+NM_CONTROLLED="no"
+EOF
+
+rm -f /etc/udev/rules.d/70-persistent-net.rules
+rm -f /etc/udev/rules.d/75-persistent-net-generator.rules
+
+# Enable network.service
+systemctl enable network.service
+
 %end
 
 %packages
@@ -45,8 +69,9 @@ grub2
 chrony
 cloud-init
 
-# Uninstall NetworkManager, install WALinuxAgent
+# Uninstall NetworkManager, install network.service and WALinuxAgent
 -NetworkManager
+network-scripts
 WALinuxAgent
 
 # NOTE lorax-composer will add the recipe packages below here, including the final %end
