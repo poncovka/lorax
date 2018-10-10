@@ -59,7 +59,14 @@ rm -f /etc/udev/rules.d/75-persistent-net-generator.rules
 systemctl enable network.service
 
 # Set a verbose boot theme.
-plymouth-set-default-theme --rebuild-initrd details
+plymouth-set-default-theme details
+
+# Add Hyper-V modules into initramfs
+cat > /etc/dracut.conf.d/10-hyperv.conf << EOF
+add_drivers+=" hv_vmbus hv_netvsc hv_storvsc "
+EOF
+
+dracut -f -v --regenerate-all
 
 # Set up the waagent.
 cat >> /etc/waagent.conf << EOF
