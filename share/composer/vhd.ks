@@ -28,18 +28,16 @@ bootloader --location=mbr --append="no_timer_check console=ttyS0,115200n8 earlyp
 services --enabled=sshd,chronyd,waagent,cloud-init
 
 %post
-# Remove random-seed
-rm /var/lib/systemd/random-seed
-
-# Clear /etc/machine-id
-rm /etc/machine-id
-touch /etc/machine-id
+lsblk
+cat /etc/fstab
 
 # Set up network.
 cat > /etc/sysconfig/network << EOF
 NETWORKING=yes
 HOSTNAME=localhost.localdomain
 EOF
+
+cat /etc/sysconfig/network
 
 cat >> /etc/sysconfig/network-scripts/ifcfg-eth0 << EOF
 DEVICE="eth0"
@@ -51,6 +49,8 @@ PEERDNS="yes"
 IPV6INIT="no"
 NM_CONTROLLED="no"
 EOF
+
+cat /etc/sysconfig/network-scripts/ifcfg-eth0
 
 rm -f /etc/udev/rules.d/70-persistent-net.rules
 rm -f /etc/udev/rules.d/75-persistent-net-generator.rules
@@ -66,13 +66,25 @@ cat > /etc/dracut.conf.d/10-hyperv.conf << EOF
 add_drivers+=" hv_vmbus hv_netvsc hv_storvsc "
 EOF
 
-dracut -f -v --regenerate-all
+dracut -f -v --persistent-policy by-uuid
+
+lsinitrd | grep hv
 
 # Set up the waagent.
 cat >> /etc/waagent.conf << EOF
 Provisioning.Enabled=n
 Provisioning.UseCloudInit=y
 EOF
+
+cat /etc/waagent.conf
+
+# Remove random-seed
+rm /var/lib/systemd/random-seed
+
+# Clear /etc/machine-id
+rm /etc/machine-id
+touch /etc/machine-id
+
 %end
 
 %packages
