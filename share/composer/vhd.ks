@@ -60,6 +60,12 @@ systemctl enable network.service
 
 # Set a verbose boot theme.
 plymouth-set-default-theme --rebuild-initrd details
+
+# Set up the waagent.
+cat >> /etc/waagent.conf << EOF
+Provisioning.Enabled=n
+Provisioning.UseCloudInit=y
+EOF
 %end
 
 %packages
