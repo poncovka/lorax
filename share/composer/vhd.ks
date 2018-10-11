@@ -40,21 +40,21 @@ EOF
 
 cat /etc/sysconfig/network
 
-cat >> /etc/sysconfig/network-scripts/ifcfg-eth0 << EOF
-DEVICE="eth0"
-BOOTPROTO="dhcp"
-ONBOOT="yes"
-TYPE="Ethernet"
-USERCTL="no"
-PEERDNS="yes"
-IPV6INIT="no"
-NM_CONTROLLED="no"
+cat > /etc/sysconfig/network-scripts/ifcfg-eth0 << EOF
+DEVICE=eth0
+ONBOOT=yes
+BOOTPROTO=dhcp
+TYPE=Ethernet
+USERCTL=no
+PEERDNS=yes
+IPV6INIT=no
+NM_CONTROLLED=no
 EOF
 
 cat /etc/sysconfig/network-scripts/ifcfg-eth0
 
-rm -f /etc/udev/rules.d/70-persistent-net.rules
-rm -f /etc/udev/rules.d/75-persistent-net-generator.rules
+# Avoid generating static rules for the Ethernet interfaces.
+ln -s /dev/null /etc/udev/rules.d/75-persistent-net-generator.rules
 
 # Set a verbose boot theme.
 plymouth-set-default-theme details
