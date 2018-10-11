@@ -4,7 +4,7 @@
 part /boot --size=1024
 
 # Firewall configuration
-firewall --disabled
+firewall --enabled
 
 # NOTE: The root account is locked by default
 user --name composer --plaintext --password composer --groups=wheel
@@ -15,7 +15,7 @@ keyboard --xlayouts=us --vckeymap=us
 # System language
 lang en_US.UTF-8
 # SELinux configuration
-selinux --permissive
+selinux --enforcing
 # Installation logging level
 logging --level=info
 # Shutdown after installation
