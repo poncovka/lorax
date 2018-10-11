@@ -7,6 +7,7 @@ part /boot --size=1024
 firewall --disabled
 
 # NOTE: The root account is locked by default
+user --name composer --plaintext --password composer
 # Network information
 network  --bootproto=dhcp --onboot=on --activate
 # System keyboard
@@ -14,7 +15,7 @@ keyboard --xlayouts=us --vckeymap=us
 # System language
 lang en_US.UTF-8
 # SELinux configuration
-selinux --enforcing
+selinux --permissive
 # Installation logging level
 logging --level=info
 # Shutdown after installation
