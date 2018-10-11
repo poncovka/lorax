@@ -4,7 +4,7 @@
 part /boot --size=1024
 
 # Firewall configuration
-firewall --enabled
+firewall --disabled
 
 # NOTE: The root account is locked by default
 # Network information
