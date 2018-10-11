@@ -29,37 +29,6 @@ bootloader --location=mbr --append="no_timer_check console=ttyS0,115200n8 earlyp
 services --enabled=sshd,chronyd,waagent
 
 %post
-lsblk
-cat /etc/fstab
-
-# Set up network.
-cat > /etc/sysconfig/network << EOF
-NETWORKING=yes
-HOSTNAME=localhost.localdomain
-EOF
-
-cat /etc/sysconfig/network
-
-cat > /etc/sysconfig/network-scripts/ifcfg-eth0 << EOF
-DEVICE=eth0
-ONBOOT=yes
-BOOTPROTO=dhcp
-TYPE=Ethernet
-USERCTL=yes
-PEERDNS=yes
-IPV6INIT=no
-EOF
-
-cat /etc/sysconfig/network-scripts/ifcfg-eth0
-
-# Avoid generating static rules for the Ethernet interfaces.
-ln -s /dev/null /etc/udev/rules.d/75-persistent-net-generator.rules
-
-cat > /etc/hostname << EOF
-localhost.localdomain
-EOF
-
-cat /etc/hostname
 
 # Set a verbose boot theme.
 plymouth-set-default-theme details
@@ -70,10 +39,6 @@ add_drivers+=" hv_vmbus hv_netvsc hv_storvsc "
 EOF
 
 dracut -f -v --persistent-policy by-uuid
-
-lsinitrd | grep hv
-
-cat /etc/waagent.conf
 
 # Remove random-seed
 rm /var/lib/systemd/random-seed
