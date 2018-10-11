@@ -56,9 +56,6 @@ cat /etc/sysconfig/network-scripts/ifcfg-eth0
 rm -f /etc/udev/rules.d/70-persistent-net.rules
 rm -f /etc/udev/rules.d/75-persistent-net-generator.rules
 
-# Enable network.service
-systemctl enable network.service
-
 # Set a verbose boot theme.
 plymouth-set-default-theme details
 
@@ -96,10 +93,6 @@ grub2
 
 chrony
 cloud-init
-
-# Uninstall NetworkManager, install network.service and WALinuxAgent
--NetworkManager
-network-scripts
 WALinuxAgent
 
 # NOTE lorax-composer will add the recipe packages below here, including the final %end
