@@ -26,7 +26,7 @@ timezone  US/Eastern
 bootloader --location=mbr --append="no_timer_check console=ttyS0,115200n8 earlyprintk=ttyS0,115200 rootdelay=300 net.ifnames=0"
 
 # Basic services
-services --enabled=sshd,chronyd,waagent,cloud-init
+services --enabled=sshd,chronyd,waagent
 
 %post
 lsblk
@@ -68,12 +68,6 @@ dracut -f -v --persistent-policy by-uuid
 
 lsinitrd | grep hv
 
-# Set up the waagent.
-cat >> /etc/waagent.conf << EOF
-Provisioning.Enabled=n
-Provisioning.UseCloudInit=y
-EOF
-
 cat /etc/waagent.conf
 
 # Remove random-seed
@@ -92,7 +86,6 @@ kernel
 grub2
 
 chrony
-cloud-init
 WALinuxAgent
 
 # NOTE lorax-composer will add the recipe packages below here, including the final %end
