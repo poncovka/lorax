@@ -23,7 +23,7 @@ shutdown
 # System timezone
 timezone  US/Eastern
 # System bootloader configuration
-bootloader --location=mbr --append="no_timer_check console=ttyS0,115200n8 earlyprintk=ttyS0,115200 rootdelay=300 net.ifnames=0"
+bootloader --location=mbr --append="no_timer_check console=ttyS0,115200n8 earlyprintk=ttyS0,115200 rootdelay=300 net.ifnames=0 biosdevname=0"
 
 # Basic services
 services --enabled=sshd,chronyd,waagent
@@ -45,16 +45,21 @@ DEVICE=eth0
 ONBOOT=yes
 BOOTPROTO=dhcp
 TYPE=Ethernet
-USERCTL=no
+USERCTL=yes
 PEERDNS=yes
 IPV6INIT=no
-NM_CONTROLLED=no
 EOF
 
 cat /etc/sysconfig/network-scripts/ifcfg-eth0
 
 # Avoid generating static rules for the Ethernet interfaces.
 ln -s /dev/null /etc/udev/rules.d/75-persistent-net-generator.rules
+
+cat > /etc/hostname << EOF
+localhost.localdomain
+EOF
+
+cat /etc/hostname
 
 # Set a verbose boot theme.
 plymouth-set-default-theme details
