@@ -52,5 +52,6 @@ grub2
 chrony
 
 WALinuxAgent
+python3
 
 # NOTE lorax-composer will add the recipe packages below here, including the final %end
