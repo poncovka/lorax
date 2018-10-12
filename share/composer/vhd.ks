@@ -36,6 +36,17 @@ rm /var/lib/systemd/random-seed
 rm /etc/machine-id
 touch /etc/machine-id
 
+# Set up network.
+cat > /etc/sysconfig/network-scripts/ifcfg-eth0 << EOF
+DEVICE=eth0
+ONBOOT=yes
+BOOTPROTO=dhcp
+TYPE=Ethernet
+USERCTL=yes
+PEERDNS=yes
+IPV6INIT=no
+EOF
+
 # Add Hyper-V modules into initramfs
 cat > /etc/dracut.conf.d/10-hyperv.conf << EOF
 add_drivers+=" hv_vmbus hv_netvsc hv_storvsc "
