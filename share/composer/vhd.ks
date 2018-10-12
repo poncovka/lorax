@@ -55,6 +55,9 @@ EOF
 dracut -f -v --persistent-policy by-uuid
 %end
 
+%addon com_redhat_kdump --disable
+%end
+
 %packages
 kernel
 -dracut-config-rescue
