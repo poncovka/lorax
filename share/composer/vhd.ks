@@ -54,5 +54,6 @@ chrony
 
 WALinuxAgent
 python3
+net-tools
 
 # NOTE lorax-composer will add the recipe packages below here, including the final %end
