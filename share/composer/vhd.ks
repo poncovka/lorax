@@ -7,6 +7,7 @@ part /boot --size=1024
 firewall --enabled
 
 # NOTE: The root account is locked by default
+user --name composer --plaintext --password composer --groups=wheel
 # Network information
 network  --bootproto=dhcp --onboot=on --activate
 # System keyboard
